@@ -73,17 +73,29 @@ def summarize_pdf(file_path):
 
 
 
-def process_pdfs():
-    for filename in os.listdir(RAW_FOLDER):
+def process_pdfs(single_file_path=None):
+    files_to_process = []
+
+    if single_file_path:
+        filename = os.path.basename(single_file_path)
         if not filename.lower().endswith(".pdf"):
-            continue
+            return
         if filename in processed_files:
             print(f"⏭ Skipping already processed file: {filename}")
-            continue
+            return
+        files_to_process.append(single_file_path)
+    else:
+        for filename in os.listdir(RAW_FOLDER):
+            if not filename.lower().endswith(".pdf"):
+                continue
+            if filename in processed_files:
+                print(f"⏭ Skipping already processed file: {filename}")
+                continue
+            files_to_process.append(os.path.join(RAW_FOLDER, filename))
 
-        full_path = os.path.join(RAW_FOLDER, filename)
-        print(f"\U0001F4A1 Summarizing: {filename}")
-
+    for full_path in files_to_process:
+        filename = os.path.basename(full_path)
+        print(f"💡 Summarizing: {filename}")
         try:
             summary = summarize_pdf(full_path)
 
