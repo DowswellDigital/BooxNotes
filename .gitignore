@@ -1,1 +1,4 @@
 processed.json
+.env
+processed.json
+*.log
