@@ -18,6 +18,8 @@ RAW_FOLDER = os.path.expanduser("~/Dropbox/BooxNotes/Raw")
 OUTPUT_FOLDER = os.path.expanduser("~/Dropbox/BooxNotes/Processed")
 MARKDOWN_FOLDER = os.path.expanduser("~/Documents/Vault/Sources/boox")
 PROCESSED_LOG = os.path.expanduser("~/Scripts/BooxNotes/processed.json")
+POPPLER_PATH = "/usr/local/bin"
+
 
 if os.path.exists(PROCESSED_LOG):
     with open(PROCESSED_LOG, "r") as f:
@@ -39,7 +41,7 @@ from pdf2image import convert_from_path
 
 def summarize_pdf(file_path):
     print(f"🧠 Converting PDF to images: {file_path}")
-    images = convert_from_path(file_path)
+    images = convert_from_path(file_path, poppler_path=POPPLER_PATH)
 
     print(f"🖼️ Sending {len(images)} page(s) to GPT-4o...")
     image_messages = [
